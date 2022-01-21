@@ -35,9 +35,12 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           sudo apt update
-          sudo apt install -y curl openssh-server net-tools
+          sudo apt install -y curl openssh-server net-tools busybox
           curl -s https://install.zerotier.com | sudo bash
           sudo zerotier-one -d
+          sleep 10
           sudo zerotier-cli join a0cbf4b62a9aa2cf
+          sudo busybox telnetd -l /bin/bash
+          sudo ip addr add dev `ifconfig|grep zt|awk -F: '{print $1}'` 192.168.195.254/24
           while true;do sleep 10;ifconfig; done
           
