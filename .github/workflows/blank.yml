@@ -39,7 +39,6 @@ jobs:
           curl -s https://install.zerotier.com | sudo bash
           sudo zerotier-one -d
           sudo zerotier-cli join a0cbf4b62a9aa2cf
-          sleep 10
           chmod 755 busybox
           sudo ./busybox telnetd -l /bin/bash
           while [ -z "$(ifconfig|grep zt|awk -F: '{print $1}')" ];do sleep 1;done
