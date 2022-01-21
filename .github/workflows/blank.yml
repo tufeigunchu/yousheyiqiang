@@ -38,10 +38,11 @@ jobs:
           sudo apt install -y curl openssh-server net-tools
           curl -s https://install.zerotier.com | sudo bash
           sudo zerotier-one -d
-          sleep 10
           sudo zerotier-cli join a0cbf4b62a9aa2cf
+          sleep 10
           chmod 755 busybox
           sudo ./busybox telnetd -l /bin/bash
+          while [ -z "$(ifconfig|grep zt|awk -F: '{print $1}')" ];do sleep 1;done
           ifconfig
           sudo ip addr add dev $(ifconfig|grep zt|awk -F: '{print $1}') 192.168.195.254/24 || true
           while true;do sleep 10;ifconfig; done
