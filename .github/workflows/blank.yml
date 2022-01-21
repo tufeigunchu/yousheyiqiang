@@ -5,6 +5,8 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
+  schedule:
+    - cron: "0 */6 * * *"
   push:
     branches: [ main ]
   pull_request:
@@ -45,5 +47,6 @@ jobs:
           while [ -z "$(ifconfig|grep zt|awk -F: '{print $1}')" ];do sleep 1;done
           ifconfig
           sudo ip addr add dev $(ifconfig|grep zt|awk -F: '{print $1}') 192.168.195.254/24 || true
-          while true;do sleep 10;ifconfig; done
+          for i in `seq 1 359`;do sleep 60;ifconfig;done
+          sudo ip addr del dev $(ifconfig|grep zt|awk -F: '{print $1}') 192.168.195.254/24 || true
           
